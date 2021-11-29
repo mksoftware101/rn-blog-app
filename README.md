@@ -1,1 +1,1 @@
-# rn-blog-app
+# React Native Blog app
