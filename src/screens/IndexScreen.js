@@ -1,22 +1,22 @@
 import React, {useContext} from 'react';
 import {Context /* as BlogContext (if we have second or more lines of contexts */} from "../context/BlogContext";
-import {View, Text, StyleSheet, FlatList, Button} from "react-native";
+import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from "react-native";
 import {AntDesign} from '@expo/vector-icons';
 
-const renderItem = ({item}) => {
-    return <View style={styles.row}>
-        <Text style={styles.title}>{item.title}</Text>
-        <AntDesign style={styles.icon} name="delete"/>
-    </View>
-}
-
 const IndexScreen = () => {
-    const {state, addBlogPost} = useContext(Context)
+    const {state, addBlogPost, deleteBlogPost} = useContext(Context)
 
     return <View>
         <Text>IndexScreen</Text>
         <Button title='Add' onPress={addBlogPost}/>
-        <FlatList data={state} renderItem={renderItem} keyExtractor={(item => item.title)}/>
+        <FlatList data={state} renderItem={({item}) => {
+            return <View style={styles.row}>
+                <Text style={styles.title}>{item.title}</Text>
+                <TouchableOpacity onPress={() => {deleteBlogPost(item.id)}}>
+                    <AntDesign style={styles.icon} name="delete"/>
+                </TouchableOpacity>
+            </View>
+        }} keyExtractor={(item => item.title)}/>
     </View>
 }
 
