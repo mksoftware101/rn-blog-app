@@ -1,13 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Context /* as BlogContext (if we have second or more lines of contexts */} from "../context/BlogContext";
 import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from "react-native";
-import {AntDesign} from '@expo/vector-icons';
+import {AntDesign, Feather} from '@expo/vector-icons';
 
 const IndexScreen = ({navigation}) => {
     const {state, addBlogPost, deleteBlogPost} = useContext(Context)
     return <View>
         <Text>IndexScreen</Text>
-        <Button title='Add' onPress={addBlogPost}/>
         <FlatList data={state} renderItem={({item}) => {
             return <TouchableOpacity onPress={() => {
                 navigation.navigate('Show', {id: item.id})
@@ -24,6 +23,18 @@ const IndexScreen = ({navigation}) => {
         }} keyExtractor={(item => item.title)}/>
     </View>
 }
+
+IndexScreen.navigationOptions = ({navigation}) => {
+    return {
+        headerRight: () => (
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('Create')
+            }}>
+                <Feather name='plus' size={30}/>
+            </TouchableOpacity>
+        ),
+    };
+};
 
 const styles = StyleSheet.create({
     row: {

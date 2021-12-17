@@ -1,9 +1,11 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import {Context} from "../context/BlogContext";
+import {Entypo} from "@expo/vector-icons";
+import IndexScreen from "./IndexScreen";
 
 const ShowScreen = ({navigation}) => {
-    const { state } = useContext(Context);
+    const {state} = useContext(Context);
     const id = navigation.getParam('id');
     const blogPost = state.find((blogPost) => blogPost.id === id);
 
@@ -11,6 +13,18 @@ const ShowScreen = ({navigation}) => {
         <Text>{blogPost.title}</Text>
     </View>
 }
+
+ShowScreen.navigationOptions = ({navigation}) => {
+    return {
+        headerRight: () => (
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('Edit')
+            }}>
+                <Entypo name='pencil' size={30}/>
+            </TouchableOpacity>
+        ),
+    };
+};
 
 const styles = StyleSheet.create({})
 
