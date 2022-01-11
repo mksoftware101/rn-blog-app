@@ -1,10 +1,23 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Context /* as BlogContext (if we have second or more lines of contexts */} from "../context/BlogContext";
 import {View, Text, StyleSheet, FlatList, Button, TouchableOpacity} from "react-native";
 import {AntDesign, Feather} from '@expo/vector-icons';
 
 const IndexScreen = ({navigation}) => {
-    const {state, addBlogPost, deleteBlogPost} = useContext(Context)
+    const {state, addBlogPost, deleteBlogPost, getBlogPosts} = useContext(Context)
+
+    useEffect(() => {
+        getBlogPosts();
+
+        const listener = navigation.addListener('didFocus', () => {
+            getBlogPosts();
+        })
+
+        return () => {
+            listener.remove();
+        }
+    }, []);
+
     return <View>
         <Text>IndexScreen</Text>
         <FlatList data={state} renderItem={({item}) => {
